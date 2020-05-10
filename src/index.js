@@ -1,5 +1,4 @@
 import _debug from 'debug'
-import PlaylistService from './playlist-service'
 import { pick, find, map } from 'lodash'
 import Spore from './spore'
 import { readFromFile } from './utils/file'
@@ -28,6 +27,7 @@ const main = async () => {
   }
 
   const collectPlaylists = async () => {
+    debug('Collecting all playlists...')
     let offset = 0
     const limit = 50
     let playlists = []
@@ -37,21 +37,27 @@ const main = async () => {
       debug('res', res)
       return res.items || []
     }
-    const loop = async () => {
+    const loopThroughPlaylists = async () => {
+      debug(`Fetching playlists for offset ${offset}...`)
       if (offset <= 1000) {
         const ps = await getPlaylists(offset)
         playlists = [...playlists, ...ps.map(i => pick(i, ['id', 'name', 'uri']))]
         offset += 50
-        await loop()
+        await loopThroughPlaylists()
       }
     }
-    await loop()
+    await loopThroughPlaylists()
     debug(find(playlists, p => p.name === CONSTANTS.PLAYLISTS.DISCOVER_WEEKLY))
     debug(find(playlists, p => p.name === CONSTANTS.PLAYLISTS.SpotifyDiscoverWeekly))
     spore.cacheUserData({ playlists })
   }
 
   const addDisoverTracks = async () => {
+    debug(`
+      Adding discover weekly tracks 
+      from ${CONSTANTS.PLAYLISTS.DISCOVER_WEEKLY} 
+      to ${CONSTANTS.PLAYLISTS.SpotifyDiscoverWeekly}...
+    `)
     const playlistData = await spore.getAllTracksInPlaylist(
       spore.user.playlists.name[CONSTANTS.PLAYLISTS.DISCOVER_WEEKLY].id
     )
