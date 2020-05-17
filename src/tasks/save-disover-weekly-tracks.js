@@ -31,7 +31,7 @@ const collectPlaylists = async ({ spore }) => {
   return playlists
 }
 
-const addDisoverTracks = async () => {
+const addDisoverTracks = async ({ spore }) => {
   debug(`
     Adding discover weekly tracks 
     from ${CONSTANTS.PLAYLISTS.DISCOVER_WEEKLY} 
