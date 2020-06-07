@@ -1,9 +1,10 @@
 import _debug from 'debug'
 import path from 'path' 
-import { readFromFile } from './utils/file'
+import { readFromFile, writeToFile } from './utils/file'
 import Spore from './spore'
 import CONSTANTS from './constants'
 import taskMap from './tasks/task-map'
+import { getISODate } from './utils/date'
 
 const debug = _debug('main')
 
@@ -47,6 +48,7 @@ const main = async () => {
       debug(`No task found for ${task}`)
     }
   }
+  await writeToFile(getISODate(), path.resolve(__dirname, CONSTANTS.FILENAME.LAST_RUN_TS))
 }
 
 main()
