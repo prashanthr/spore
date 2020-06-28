@@ -6,7 +6,8 @@
   "scripts": {
     "start": "DEBUG=*,-babel* ./node_modules/.bin/babel-node ./src/index.js",
     "hello": "SPORE_TASKS=hello yarn start",
-    "dw": "SPORE_TASKS=save-discover-weekly-tracks yarn start"
+    "dw": "SPORE_TASKS=save-discover-weekly-tracks yarn start",
+    "mixtape": "SPORE_TASKS=daily-mix-tape yarn start"
   },
   "dependencies": {
     "@babel/cli": "^7.8.4",

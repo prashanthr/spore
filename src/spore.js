@@ -4,7 +4,7 @@ import querystring from 'querystring'
 import { exec } from 'child_process'
 import _debug from 'debug'
 import { writeToFile } from './utils/file'
-import { keyBy } from 'lodash'
+import { keyBy, map } from 'lodash'
 import CONSTANTS from './constants'
 import cuid from 'cuid'
 import path from 'path'
@@ -171,9 +171,19 @@ class Spore {
     }
   }
 
-  async getAllTracksInPlaylist (playlistId) {
+  async getPlaylist (playlistId) {
     try {
       const response = await this.spotify.getPlaylist(playlistId)
+      return this.parseResponse(response)
+    } catch (err) {
+      debug(`Error getting playlist ${playlistId}`)
+      throw err
+    }
+  }
+
+  async getAllTracksInPlaylist (playlistId, options) {
+    try {
+      const response = await this.spotify.getPlaylistTracks(playlistId, options)
       return this.parseResponse(response)
     } catch (err) {
       debug(`Error getting tracks in playlist ${playlistId}`)
@@ -187,6 +197,26 @@ class Spore {
       return this.parseResponse(response)
     } catch (err) {
       debug(`Error adding tracks to playlist ${playlistId}`)
+      throw err
+    }
+  }
+
+  async replaceTracksInPlaylist (playlistId, trackUris = []) {
+    try {
+      const response = await this.spotify.replaceTracksInPlaylist(playlistId, trackUris)
+      return this.parseResponse(response)
+    } catch (err) {
+      debug(`Error replacing tracks in playlist ${playlistId}`)
+      throw err
+    }
+  }
+
+  async removeTracksFromPlaylist (playlistId, trackUris = []) {
+    try {
+      const response = await this.spotify.removeTracksFromPlaylist(playlistId, map(trackUris, uri => ({ uri })))
+      return this.parseResponse(response)
+    } catch (err) {
+      debug(`Error removing tracks from playlist ${playlistId}`)
       throw err
     }
   }

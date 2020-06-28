@@ -6,7 +6,14 @@ const CONSTANTS = {
   },
   PLAYLISTS: {
     DISCOVER_WEEKLY: 'Discover Weekly',
-    SpotifyDiscoverWeekly: '#SpotifyDiscoverWeekly'
+    SpotifyDiscoverWeekly: '#SpotifyDiscoverWeekly',
+    DailyMix1: 'Daily Mix 1',
+    DailyMix2: 'Daily Mix 2',
+    DailyMix3: 'Daily Mix 3',
+    DailyMix4: 'Daily Mix 4',
+    DailyMix5: 'Daily Mix 5',
+    DailyMix6: 'Daily Mix 6',
+    DailyMixtape: '#DailyMixtape'
   }
 }
 
