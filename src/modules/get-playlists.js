@@ -11,7 +11,7 @@ const getPlaylists = async ({
 }) => {
   debug('Fetching all playlists...')
   let offset = 0
-  const OFFSET_STEP = 100
+  const OFFSET_STEP = 50
   const MAX_OFFSET = 1000
   let playlists = []
 

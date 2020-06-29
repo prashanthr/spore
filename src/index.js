@@ -44,11 +44,11 @@ const main = async () => {
         spore,
         config: { taskName: task }
       })
+      await writeToFile(getISODate(), path.resolve(__dirname, `${CONSTANTS.FILENAME.LAST_RUN_TS}_${task}`))
     } else {
       debug(`No task found for ${task}`)
     }
   }
-  await writeToFile(getISODate(), path.resolve(__dirname, CONSTANTS.FILENAME.LAST_RUN_TS))
 }
 
 main()
