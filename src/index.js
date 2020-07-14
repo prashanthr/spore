@@ -5,6 +5,7 @@ import Spore from './spore'
 import CONSTANTS from './constants'
 import taskMap from './tasks/task-map'
 import { getISODate } from './utils/date'
+import healthCheck from './utils/health-check'
 
 const debug = _debug('main')
 
@@ -17,13 +18,13 @@ const main = async () => {
     return
   }
 
-  const SAVED_SPOTIFY_ACCESS_TOKEN = await readFromFile(path.resolve(__dirname, CONSTANTS.FILENAME.SPOTIFY_ACCESS_TOKEN))
-  const SAVED_SPOTIFY_REFRESH_TOKEN = await readFromFile(path.resolve(__dirname, CONSTANTS.FILENAME.SPOTIFY_REFRESH_TOKEN))
+  const RESOLVED_SPOTIFY_ACCESS_TOKEN = SPOTIFY_ACCESS_TOKEN || await readFromFile(path.resolve(__dirname, CONSTANTS.FILENAME.SPOTIFY_ACCESS_TOKEN))
+  const RESOLVED_SPOTIFY_REFRESH_TOKEN = SPOTIFY_REFRESH_TOKEN || await readFromFile(path.resolve(__dirname, CONSTANTS.FILENAME.SPOTIFY_REFRESH_TOKEN))
   // debug('read tokens', SAVED_SPOTIFY_ACCESS_TOKEN, SAVED_SPOTIFY_REFRESH_TOKEN)
   
   const spore = new Spore({
-    accessToken: SAVED_SPOTIFY_ACCESS_TOKEN || SPOTIFY_ACCESS_TOKEN,
-    refreshToken: SAVED_SPOTIFY_REFRESH_TOKEN || SPOTIFY_REFRESH_TOKEN,
+    accessToken: RESOLVED_SPOTIFY_ACCESS_TOKEN,
+    refreshToken: RESOLVED_SPOTIFY_REFRESH_TOKEN,
     clientSecret: SPOTIFY_CLIENT_SECRET,
     clientId: SPOTIFY_CLIENT_ID
   })
@@ -40,10 +41,17 @@ const main = async () => {
   for (let task of tasks) {
     const taskExecutable = taskMap[task]
     if (taskExecutable) {
-      await taskExecutable({
-        spore,
-        config: { taskName: task }
-      })
+      try {
+        debug(`Running task executable for task ${task}...`)
+        await taskExecutable({
+          spore,
+          config: { taskName: task }
+        })
+        await healthCheck(task)
+      } catch (err) {
+        debug(`Error running task executable for task ${task}`)
+        await healthCheck(task, true)
+      }
       await writeToFile(getISODate(), path.resolve(__dirname, `${CONSTANTS.FILENAME.LAST_RUN_TS}_${task}`))
     } else {
       debug(`No task found for ${task}`)

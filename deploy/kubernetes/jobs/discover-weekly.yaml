@@ -1,0 +1,47 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  namespace: mousai
+  name: discover-weekly
+spec:
+  concurrencyPolicy: Replace
+  failedJobsHistoryLimit: 7
+  successfulJobsHistoryLimit: 5
+  suspend: false
+  schedule: "0 4 * * SUN"
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 60
+      activeDeadlineSeconds: 600
+      template:
+        spec:
+          containers:
+          - name: discover-weekly
+            image: prequod/spore:latest
+            imagePullPolicy: Always
+            env:
+              - name: SPOTIFY_ACCESS_TOKEN
+                valueFrom:
+                  secretKeyRef:
+                    name: pandoras-box
+                    key: spotify-access-token
+              - name: SPOTIFY_REFRESH_TOKEN
+                valueFrom:
+                  secretKeyRef:
+                    name: pandoras-box
+                    key: spotify-refresh-token
+              - name: SPOTIFY_CLIENT_ID
+                valueFrom:
+                  secretKeyRef:
+                    name: pandoras-box
+                    key: spotify-client-id
+              - name: SPOTIFY_CLIENT_SECRET
+                valueFrom:
+                  secretKeyRef:
+                    name: pandoras-box
+                    key: spotify-client-secret
+            args:
+            - /bin/bash
+            - -c
+            - date; yarn dw;
+          restartPolicy: OnFailure
