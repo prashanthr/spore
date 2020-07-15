@@ -1,6 +1,6 @@
 import { isEmpty, pick } from 'lodash'
 import _debug from 'debug'
-const debug = _debug('module:copy-playlist')
+const debug = _debug('spore:module:copy-playlist')
 
 /**
  * Gets all the playlists

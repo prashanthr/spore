@@ -8,7 +8,7 @@ import addTracksToPlaylist from '../modules/add-tracks-to-playlist'
 import removeTracksFromPlaylist from '../modules/remove-tracks-from-playlist'
 import { shuffleTracks }  from '../utils/track'
 
-const debug = _debug('task:daily-playlist-merge')
+const debug = _debug('spore:task:daily-playlist-merge')
 
 const run = async ({ spore, config }) => {
   try {

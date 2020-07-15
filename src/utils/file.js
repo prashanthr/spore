@@ -2,7 +2,7 @@ import fs from 'fs'
 import util from 'util'
 import _debug from 'debug'
 
-const debug = _debug('util:file')
+const debug = _debug('spore:util:file')
 
 const readFileFS = util.promisify(fs.readFile)
 const writeFileFS = util.promisify(fs.writeFile)

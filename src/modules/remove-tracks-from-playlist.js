@@ -1,7 +1,7 @@
 import { isEmpty, chunk } from 'lodash'
 import getTrackIdsFromPlaylist from './get-trackIds-from-playlist'
 import _debug from 'debug'
-const debug = _debug('module:add-tracks-to-playlist')
+const debug = _debug('spore:module:add-tracks-to-playlist')
 
 const removeTracksFromPlaylist = async ({ playlistName, trackIds, spore, removeAll = false }) => {
   if (!spore.user || !spore.user.playlists || isEmpty(spore.user.playlists)) {

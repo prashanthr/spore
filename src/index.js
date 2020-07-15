@@ -7,7 +7,7 @@ import taskMap from './tasks/task-map'
 import { getISODate } from './utils/date'
 import healthCheck from './utils/health-check'
 
-const debug = _debug('main')
+const debug = _debug('spore:main')
 
 const main = async () => {
   const { SPORE_TASKS, SPOTIFY_ACCESS_TOKEN, SPOTIFY_REFRESH_TOKEN, SPOTIFY_USERNAME, SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_AUTH_URL } = process.env
@@ -49,7 +49,7 @@ const main = async () => {
         })
         await healthCheck(task)
       } catch (err) {
-        debug(`Error running task executable for task ${task}`)
+        debug(`Error running task executable for task ${task}: ${err}`)
         await healthCheck(task, true)
       }
       await writeToFile(getISODate(), path.resolve(__dirname, `${CONSTANTS.FILENAME.LAST_RUN_TS}_${task}`))

@@ -1,6 +1,6 @@
 import { isEmpty, map, pick } from 'lodash'
 import _debug from 'debug'
-const debug = _debug('module:get-tracks-from-playlist')
+const debug = _debug('spore:module:get-tracks-from-playlist')
 
 const getTrackIds = async ({ sourcePlaylistName, spore }) => {
   debug(`Getting track ids from ${sourcePlaylistName}...`)

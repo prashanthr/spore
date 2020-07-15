@@ -6,7 +6,7 @@ import addTracksToPlaylist from '../modules/add-tracks-to-playlist'
 import path from 'path' 
 import { pick, find, map } from 'lodash'
 
-const debug = _debug('task:save-discover-weekly-tracks')
+const debug = _debug('spore:task:save-discover-weekly-tracks')
 
 const addDisoverTracks = async ({ spore }) => {
   debug(`

@@ -1,6 +1,6 @@
 import { isEmpty, chunk } from 'lodash'
 import _debug from 'debug'
-const debug = _debug('module:add-tracks-to-playlist')
+const debug = _debug('spore:module:add-tracks-to-playlist')
 
 const addTracksToPlaylist = async ({ destinationPlaylistName, trackIds, spore, replaceTracks = false }) => {
   const destinationPlaylistId = spore.user.playlists.name[destinationPlaylistName].id

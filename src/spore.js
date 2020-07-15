@@ -9,7 +9,7 @@ import CONSTANTS from './constants'
 import cuid from 'cuid'
 import path from 'path'
 
-const debug = _debug('spore')
+const debug = _debug('spore:spore')
 
 class Spore {
   constructor ({ accessToken, refreshToken, clientId, clientSecret, redirectUri = 'http://localhost:3000/callback' }) {

@@ -1,6 +1,6 @@
 import _debug from 'debug'
 
-const debug = _debug('task:test')
+const debug = _debug('spore:task:test')
 
 const run = async ({ spore, config }) => {
   try {

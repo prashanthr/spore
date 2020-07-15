@@ -2,7 +2,7 @@ import { isEmpty } from 'lodash'
 import getTrackIds from './get-trackIds-from-playlist'
 import _debug from 'debug'
 import addTracksToPlaylist from './add-tracks-to-playlist'
-const debug = _debug('module:copy-playlist')
+const debug = _debug('spore:module:copy-playlist')
 
 /**
  * 
