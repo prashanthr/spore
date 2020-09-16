@@ -20,7 +20,7 @@
     "axios": "^0.19.2",
     "cuid": "^2.1.8",
     "debug": "^4.1.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "querystring": "^0.2.0",
     "spotify-web-api-node": "^4.0.0",
     "util": "^0.12.3"
