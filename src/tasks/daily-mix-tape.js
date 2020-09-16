@@ -15,16 +15,29 @@ const run = async ({ spore, config }) => {
     debug(`Running task ${config.taskName}...`)
     const playlists = await getPlaylists({ spore })
     spore.cacheUserData({ playlists })
-    const dailyMixPlaylists = filter(playlists, playlist => [
-        CONSTANTS.PLAYLISTS.DailyMix1,
-        CONSTANTS.PLAYLISTS.DailyMix2,
-        CONSTANTS.PLAYLISTS.DailyMix3,
-        CONSTANTS.PLAYLISTS.DailyMix4,
-        CONSTANTS.PLAYLISTS.DailyMix5,
-        CONSTANTS.PLAYLISTS.DailyMix6
-      ].includes(playlist.name)
+    const dailyMixPlaylistNames = [
+      CONSTANTS.PLAYLISTS.DailyMix1,
+      CONSTANTS.PLAYLISTS.DailyMix2,
+      CONSTANTS.PLAYLISTS.DailyMix3,
+      CONSTANTS.PLAYLISTS.DailyMix4,
+      CONSTANTS.PLAYLISTS.DailyMix5,
+      CONSTANTS.PLAYLISTS.DailyMix6
+    ]
+    const dailyMixPlaylists = filter(
+      playlists, playlist => dailyMixPlaylistNames.includes(playlist.name)
     )
-    debug('Daily Mixes', dailyMixPlaylists)
+    debug('Total Num Playlists', playlists.length)
+    debug(`Daily Mixes [${dailyMixPlaylists.length}]`, dailyMixPlaylists)
+    if (
+      dailyMixPlaylists.length === 0 || 
+      dailyMixPlaylists.length !== dailyMixPlaylistNames.length
+    ) {
+      throw new Error(
+        `Inconsistency with Daily Mixes. 
+         Found ${dailyMixPlaylists.length / playlists.length} daily/total. 
+         Aborting...`
+      )
+    }
     const dailyMixTrackIdsCollection = []
     for (const playlist of dailyMixPlaylists) {
       dailyMixTrackIdsCollection.push(

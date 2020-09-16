@@ -8,7 +8,7 @@ spec:
   failedJobsHistoryLimit: 7
   successfulJobsHistoryLimit: 5
   suspend: false
-  schedule: "0 11 * * *"
+  schedule: "30 11 * * *"
   jobTemplate:
     spec:
       ttlSecondsAfterFinished: 60

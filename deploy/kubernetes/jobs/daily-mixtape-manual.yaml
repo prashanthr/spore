@@ -1,0 +1,40 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  namespace: mousai
+  name: daily-mixtape-manual
+spec:
+  ttlSecondsAfterFinished: 60
+  activeDeadlineSeconds: 600
+  template:
+    spec:
+      containers:
+      - name: daily-mixtape
+        image: prequod/spore:latest
+        imagePullPolicy: Always
+        env:
+          - name: SPOTIFY_ACCESS_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: pandoras-box
+                key: spotify-access-token
+          - name: SPOTIFY_REFRESH_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: pandoras-box
+                key: spotify-refresh-token
+          - name: SPOTIFY_CLIENT_ID
+            valueFrom:
+              secretKeyRef:
+                name: pandoras-box
+                key: spotify-client-id
+          - name: SPOTIFY_CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: pandoras-box
+                key: spotify-client-secret
+        args:
+        - /bin/bash
+        - -c
+        - date; yarn daily-mixtape;
+      restartPolicy: Never
