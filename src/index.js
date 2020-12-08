@@ -51,7 +51,7 @@ const main = async () => {
         await healthCheck({ task })
       } catch (err) {
         debug(`Error running task executable for task ${task}: ${err}`)
-        await healthCheck({ task, pingType: 'fail' )
+        await healthCheck({ task, pingType: 'fail' })
       }
       await writeToFile(getISODate(), path.resolve(__dirname, `${CONSTANTS.FILENAME.LAST_RUN_TS}_${task}`))
     } else {
