@@ -43,14 +43,15 @@ const main = async () => {
     if (taskExecutable) {
       try {
         debug(`Running task executable for task ${task}...`)
+        await healthCheck({ task, pingType: 'start' })
         await taskExecutable({
           spore,
           config: { taskName: task }
         })
-        await healthCheck(task)
+        await healthCheck({ task })
       } catch (err) {
         debug(`Error running task executable for task ${task}: ${err}`)
-        await healthCheck(task, true)
+        await healthCheck({ task, pingType: 'fail' )
       }
       await writeToFile(getISODate(), path.resolve(__dirname, `${CONSTANTS.FILENAME.LAST_RUN_TS}_${task}`))
     } else {
